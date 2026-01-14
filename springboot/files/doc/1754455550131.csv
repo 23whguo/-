@@ -1,0 +1,13 @@
+﻿Order ID,Username,Email,Order Date,Order Status,Payment Status,Payment Method,Order Amount,Item Count,Shipping Address,Product List
+"15","admin","ad1min@example.com","2025-08-05 14:29:22","Pending","Pending","CashOnDelivery","179.98","2","System Administrator, 175415, 456 Oak Avenue, Apt 2B, Los Angeles, California 90210","Traditional Silk Fan×2"
+"14","admin","ad1min@example.com","2025-08-05 11:44:35","Paid","Paid","CashOnDelivery","233.98","2","System Administrator, 175415, 456 Oak Avenue, Apt 2B, Los Angeles, California 90210","Blue and White Porcelain Tea Set×1; Commemorative Coffee Mug×1"
+"13","admin","ad1min@example.com","2025-08-05 10:48:06","Shipped","Paid","CashOnDelivery","519.99","2","System Administrator, 175415, 456 Oak Avenue, Apt 2B, Los Angeles, California 90210","Stone Carved Vase×2"
+"12","admin","ad1min@example.com","2025-08-05 10:34:16","Paid","Paid","CashOnDelivery","499.98","2","System Administrator, 175415, 456 Oak Avenue, Apt 2B, Los Angeles, California 90210","Stone Carved Vase×1; Traditional Silk Fan×1"
+"11","user","user@example.com","2025-08-03 09:22:17","Paid","Paid","CashOnDelivery","599.98","2","Jennifer Martinez, 258 Cherry Street, San Diego, California, 92101","Wooden Dragon Carving 1×2"
+"10","user","user@example.com","2025-07-30 23:24:09","Completed","Paid","CashOnDelivery","599.98","2","Jennifer Martinez, 258 Cherry Street, San Diego, California, 92101","Wooden Dragon Carving 1×2"
+"9","user","user@example.com","2025-07-30 22:56:15","Paid","Paid","CashOnDelivery","399.99","1","Robert Miller, 147 Walnut Circle, San Antonio, Texas, 78201","Stone Carved Vase×1"
+"8","user","user@example.com","2025-07-30 22:50:15","Cancelled","Cancelled","Alipay","399.99","1","Lisa Garcia, 987 Birch Boulevard, Philadelphia, Pennsylvania, 19101","Stone Carved Vase×1"
+"7","user","user@example.com","2025-07-30 22:49:09","Pending","Pending","Alipay","299.99","1","David Wilson, 654 Cedar Lane, Phoenix, Arizona, 85001","Wooden Dragon Carving 1×1"
+"6","admin","ad1min@example.com","2025-07-30 17:07:09","Shipped","Paid","Alipay","299.99","1","Emily Davis, 321 Elm Drive, Houston, Texas, 77001","Wooden Dragon Carving 1×1"
+"5","user","user@example.com","2025-07-29 10:59:08","Completed","Paid","Alipay","599.98","2","Sarah Johnson, 456 Maple Avenue, Los Angeles, California, 90210","Wooden Dragon Carving 1×1; Wooden Dragon Carving 1×1"
+"1","user","user@example.com","2025-07-29 09:45:45","Completed","Paid","Alipay","299.99","1","John Smith, 123 Oak Street, New York, New York, 10001","Wooden Dragon Carving 1×1"

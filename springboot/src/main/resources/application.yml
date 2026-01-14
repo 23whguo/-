@@ -1,0 +1,117 @@
+spring:
+  application:
+    name: springboot
+  
+  # 数据源配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/mental_health_assistant?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2b8&allowPublicKeyRetrieval=true
+    username: root
+    password: lsygwh1314
+  
+  # 安全配置
+  security:
+    user:
+      name: admin
+      password: admin
+  main:
+    allow-bean-definition-overriding: true
+  ai:
+    chat:
+      memory:
+        repository:
+          jdbc:
+            initialize-schema: always
+            platform: mariadb
+      options:
+        tool-calling:
+          enabled: true
+    openai:
+      chat:
+        options:
+          model: deepseek-ai/DeepSeek-V3
+          tool-calling:
+            enabled: true
+        completions-path: /v1/chat/completions
+      api-key: sk-tysxceqvlzddeysjqmdrfwlkbwazwnmibzhysjlghknvytqs
+      base-url: https://api.siliconflow.cn
+
+  # Web配置
+  mvc:
+    static-path-pattern: /**  # 允许根路径访问静态资源
+  web:
+    resources:
+      static-locations: classpath:/static/, file:./files/  # 添加files目录
+  
+  # 文件上传配置
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 10MB
+  
+  # JSON配置
+  jackson:
+    default-property-inclusion: non_empty
+
+# 服务器配置
+server:
+  port: 1235
+  servlet:
+    context-path: /
+
+# MyBatis-Plus配置
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+# SpringDoc配置
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+    enabled: true
+  api-docs:
+    path: /v3/api-docs
+    enabled: true
+  enable-spring-security: false
+  paths-to-match: /**
+  packages-to-scan: org.example.springboot
+
+# Knife4j配置
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
+  basic:
+    enable: true
+    username: admin
+    password: admin
+
+# JWT配置
+jwt:
+  secret: MySecretKeyForJWT2025!@#$%^&*()_+SecureKeyHere
+  expiration: 86400000  # 24小时（毫秒）
+  refresh-expiration: 604800000  # 7天（毫秒）
+  header: Authorization  # token头部名称
+  token-prefix: "Bearer "  # token前缀
+
+# 用户配置
+user:
+  defaultPassword: 123456
+
+# 文件管理配置
+file:
+  upload:
+    path: ./files
+    maxSize: 10485760  # 10MB
+
+# LiveKit 实时语音配置（建议通过环境变量注入，不要提交密钥到仓库）
+livekit:
+  url: ${LIVEKIT_URL:}
+  api-key: ${LIVEKIT_API_KEY:}
+  api-secret: ${LIVEKIT_API_SECRET:}
+  token-ttl-seconds: ${LIVEKIT_TOKEN_TTL_SECONDS:3600}

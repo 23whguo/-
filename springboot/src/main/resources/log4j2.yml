@@ -1,0 +1,140 @@
+# Log4j2 YAML配置文件
+# 用于Spring Boot 3项目的日志配置
+Configuration:
+  # Log4j2内部日志级别，用于输出Log4j2自身的调试信息
+  # 可选值：OFF, FATAL, ERROR, WARN, INFO, DEBUG, TRACE, ALL
+  status: WARN
+  
+  # 配置文件监控间隔（秒），设置后Log4j2会自动重载配置文件
+  # 0表示禁用自动重载，正数表示检查间隔秒数
+  monitorInterval: 30
+  
+  # 属性定义区域，用于定义可重用的属性变量
+  Properties:
+    Property:
+      # 定义日志输出格式模式
+      # %d：日期时间，%t：线程名，%-5level：左对齐5位日志级别
+      # %logger{36}：Logger名称最多36个字符，%msg：日志消息，%n：换行符
+      - name: LOG_PATTERN
+        value: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"
+      
+      # 定义日志文件存储目录
+      # ./logs表示相对于应用程序运行目录的logs子目录
+      - name: LOG_DIR
+        value: "./logs"
+
+  # 输出源配置区域，定义日志输出的目标和格式
+  Appenders:
+    # 控制台输出配置
+    Console:
+      # Appender的唯一名称标识
+      name: Console
+      # 输出目标：SYSTEM_OUT(标准输出)或SYSTEM_ERR(标准错误)
+      target: SYSTEM_OUT
+      # 日志格式布局配置
+      PatternLayout:
+        # 使用前面定义的LOG_PATTERN变量
+        pattern: "${LOG_PATTERN}"
+      # 阈值过滤器，只输出指定级别及以上的日志
+      ThresholdFilter:
+        # 过滤级别：DEBUG及以上级别的日志会被输出
+        level: DEBUG
+        # 匹配时的动作：ACCEPT(接受)
+        onMatch: ACCEPT
+        # 不匹配时的动作：DENY(拒绝)
+        onMismatch: DENY
+
+    # 滚动文件输出配置
+    RollingFile:
+      # 第一个滚动文件：应用程序日志
+      - name: FileAppender
+        # 当前活跃的日志文件名
+        fileName: "${LOG_DIR}/application.log"
+        # 滚动后的文件名模式
+        # %d{yyyy-MM-dd}：按日期滚动，%i：序号，.gz：压缩
+        filePattern: "${LOG_DIR}/application-%d{yyyy-MM-dd}-%i.log.gz"
+        # 日志格式布局
+        PatternLayout:
+          pattern: "${LOG_PATTERN}"
+        # 滚动策略配置
+        Policies:
+          # 基于时间的滚动策略：每天滚动一次
+          TimeBasedTriggeringPolicy: {}
+          # 基于文件大小的滚动策略
+          SizeBasedTriggeringPolicy:
+            # 文件大小达到100MB时触发滚动
+            size: 100MB
+        # 默认滚动策略：保留的文件数量
+        DefaultRolloverStrategy:
+          # 最多保留10个历史文件
+          max: 10
+
+      # 第二个滚动文件：错误日志专用
+      - name: ErrorAppender
+        # 错误日志文件名
+        fileName: "${LOG_DIR}/error.log"
+        # 错误日志滚动文件名模式
+        filePattern: "${LOG_DIR}/error-%d{yyyy-MM-dd}-%i.log.gz"
+        # 日志格式布局
+        PatternLayout:
+          pattern: "${LOG_PATTERN}"
+        # 滚动策略配置
+        Policies:
+          # 每天滚动一次
+          TimeBasedTriggeringPolicy: {}
+          # 文件大小达到100MB时滚动
+          SizeBasedTriggeringPolicy:
+            size: 100MB
+        # 保留10个历史文件
+        DefaultRolloverStrategy:
+          max: 10
+        # 阈值过滤器：只记录ERROR级别及以上的日志
+        ThresholdFilter:
+          level: ERROR
+          onMatch: ACCEPT
+          onMismatch: DENY
+
+  # 日志器配置区域，定义不同包的日志级别和输出目标
+  Loggers:
+    # 具名Logger配置
+    Logger:
+      # Spring框架相关日志配置
+      - name: org.springframework
+        # Spring框架日志级别设为INFO
+        level: INFO
+        # 不继承父Logger的Appender，避免重复输出
+        additivity: false
+        # 指定输出目标
+        AppenderRef:
+          # 输出到控制台
+          - ref: Console
+          # 输出到应用程序日志文件
+          - ref: FileAppender
+
+      # 应用程序包日志配置（需要替换为实际包名）
+      - name: org.example.springboot
+        # 应用程序日志级别设为DEBUG，便于开发调试
+        level: DEBUG
+        # 不继承父Logger的Appender
+        additivity: false
+        # 指定输出目标
+        AppenderRef:
+          # 输出到控制台
+          - ref: Console
+          # 输出到应用程序日志文件
+          - ref: FileAppender
+          # 输出到错误日志文件（仅ERROR级别）
+          - ref: ErrorAppender
+
+    # 根Logger配置，作为所有Logger的默认配置
+    Root:
+      # 根Logger的默认日志级别
+      level: INFO
+      # 根Logger的输出目标
+      AppenderRef:
+        # 输出到控制台
+        - ref: Console
+        # 输出到应用程序日志文件
+        - ref: FileAppender
+        # 输出到错误日志文件
+        - ref: ErrorAppender
